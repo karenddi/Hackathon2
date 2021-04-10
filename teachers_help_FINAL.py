@@ -6,28 +6,25 @@ def csv_reader(file):
     print(data)
     return data
 
+
+def open_file(file):
+    with open(file,  encoding="utf-8") as file_opened:
+        lines = file_opened.readlines()
+        return lines
+
 def data_imported(data):
 
     names = data.name.tolist()
     surnames = data.surname.tolist()
     tasks_missing = data.tasks_missing.tolist()
     grade = data.grade.tolist()
-    print(names)
-    print(surnames)
-    print(tasks_missing)
-    print(grade)
-    return names and surnames and tasks_missing and grade
 
-def open_file(file):
-    with open(file,  encoding="utf-8") as file_opened:
-        lines = file_opened.readlines()
-        print(lines)
-        return lines
+    dict_data = {"names": names,
+                 "surnames": surnames,
+                 "tasks_missing": tasks_missing,
+                 "grade": grade}
 
-def personalised_message(data, message):
-
-    for names, surnames, tasks_missing, grade in data:#zip(names, surnames, tasks_missing, grade):
-     print(message.format(names, surnames, tasks_missing, grade, int(grades) + 1))
+    return dict_data
 
 
 
@@ -35,14 +32,25 @@ def personalised_message(data, message):
 
 if __name__ == '__main__':
         try:
-            students_read = csv_reader("students.csv")
+            s_read = csv_reader("students.csv")
 
         except FileNotFoundError as err:
             print(err, "File not found. Check the spelling.")
 
-students_data = data_imported(students_read)
-message = str(open_file("message.txt"))
-message_final = personalised_message(students_data, message)
+
+
+        s_data = data_imported(s_read)
+
+        message = str(open_file("message.txt"))
+
+        try:
+            for names, surnames, tasks_missing, grade in zip(s_data["names"], s_data["surnames"], s_data["tasks_missing"], s_data["grade"]):
+                print(message.format((names +" "+ surnames), tasks_missing, grade, int(grade) + 1))
+
+        except ValueError as err2:
+            print(err2, "It is not an integer!Check this out.")
+
+
 
 
 
