@@ -1,6 +1,6 @@
 # Hackathon2
 
-## Message generator
+## Messages generator for teachers
 
 ##General info:
 
